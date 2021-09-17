@@ -2,7 +2,11 @@ package ru.job4j.chess;
 
 import ru.job4j.chess.firuges.Cell;
 import ru.job4j.chess.firuges.Figure;
+
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public final class Logic {
     private final Figure[] figures = new Figure[32];
@@ -21,6 +25,14 @@ public final class Logic {
     }
 
     private boolean free(Cell[] steps) throws OccupiedCellException {
+        Figure[] figureArray = Arrays.stream(figures).filter(s -> s != null).toArray(Figure[]::new);
+        for (Figure figure: figureArray) {
+            for (Cell cell: steps) {
+                if (cell.equals(figure.position())) {
+                    throw new OccupiedCellException();
+                }
+            }
+        }
         return true;
     }
 
